@@ -1,14 +1,38 @@
   <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
   <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
   <div id="gitalk-container"></div>
+<script>
+    window.addEventListener('message', receiveMessage, false);
+    function receiveMessage(event)
+    {
+        if (event.data) {
+            var msg;
+            try {
+                msg = JSON.parse(event.data);
+            } catch (err) {
+                // Do nothing
+            }
+            if (!msg)
+                return false;
+    
+            if (msg.name === 'resize') {
+                window.parent.postMessage({
+                  sentinel: 'amp',
+                  type: 'embed-size',
+                  height: msg.data.height
+                }, '*');
+            }
+        }
+    }
+    </script>
   <script>
 
  var gitalk = new Gitalk({
-  clientID: 'GitHub Application Client ID',
-  clientSecret: 'GitHub Application Client Secret',
-  repo: 'GitHub repo',
-  owner: 'GitHub repo owner',
-  admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],
+  clientID: '8a026294c6f895e89e4e',
+  clientSecret: '2cb6dbd455bac19577859103978c4fdc4b586b2b',
+  repo: 'disqus-for-gridea-theme-inlineamp',
+  owner: 'jiansing',
+  admin: ['jiansing'],
   id: location.pathname,      // Ensure uniqueness and length less than 50
   distractionFreeMode: false  // Facebook-like distraction free mode
 })
